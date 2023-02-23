@@ -17,7 +17,7 @@
         }
     </style>
 @section('title')
-    questions
+    sections
 @stop
 
 @endsection
@@ -27,7 +27,7 @@
     <div class="my-auto">
         <div class="d-flex">
             <h4 class="content-title mb-0 my-auto">Dashboard</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                questions</span>
+                sections</span>
         </div>
     </div>
 </div>
@@ -127,7 +127,7 @@
                 <div class="d-flex justify-content-between">
 
                     <a class="modal-effect btn btn-outline-primary" data-effect="effect-scale" data-toggle="modal"
-                        href="#modaldemo8">Add Question</a>
+                        href="#modaldemo8">Add section</a>
 
                 </div>
 
@@ -139,37 +139,35 @@
                         <thead>
                             <tr>
                                 <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0">title</th>
-                                <th class="border-bottom-0">question</th>
-                                <th class="border-bottom-0">answer</th>
+                                <th class="border-bottom-0">name</th>
+                                <th class="border-bottom-0">matrial</th>
                                 <th class="border-bottom-0">action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($questions as $question)
+                            @foreach ($sections as $section)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $question->title }}</td>
-                                    <td>{{ $question->question }}</td>
-                                    <td>{{ $question->answer }}</td>
+                                    <td>{{ $section->name }}</td>
+                                    <td>{{ optional($section->material)->name }}</td>
                                     <td>
                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                            data-toggle="modal" href="#exampleModal2{{ $question->id }}"
+                                            data-toggle="modal" href="#exampleModal2{{ $section->id }}"
                                             title="edit"><i class="las la-pen"></i></a>
 
                                         <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                            data-toggle="modal" href="#modaldemo9{{ $question->id }}" title="delete"><i
+                                            data-toggle="modal" href="#modaldemo9{{ $section->id }}" title="delete"><i
                                                 class="las la-trash"></i></a>
 
                                     </td>
                                 </tr>
 
-                                @include('admin.questions.delete_modal', ['question' => $question])
-                                @include('admin.questions.edit_modal', ['question' => $question])
+                                @include('admin.sections.delete_modal', ['section' => $section])
+                                @include('admin.sections.edit_modal', ['section' => $section])
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $questions->links() }}
+                    {{ $sections->links() }}
 
                 </div>
             </div>
@@ -183,7 +181,7 @@
 
 </div>
 
-@include('admin.questions.add_modal')
+@include('admin.sections.add_modal')
 
 <!-- delete -->
 

@@ -5,20 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ContactUs extends Model
+class Section extends Model
 {
     use HasFactory;
     public $timestamps = true;
 
     protected $fillable = [
         'name',
-        'email',
-        'phone',
-        'nationality_id',
-        'is_free'
+        'material_id',
+        'link_whatsup'
+
     ];
-    public function nationality()
+    public function material()
     {
-        return $this->belongsTo('App\Models\Nationality');
+        return $this->belongsTo('App\Models\Material');
     }
 }

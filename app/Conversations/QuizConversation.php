@@ -42,7 +42,19 @@ class QuizConversation extends Conversation
     }
     private function showInfo()
     {
-        $this->say('You will be shown ' . $this->questionCount . ' questions about Laravel. Every correct answer will reward you with a certain amount of points. Please keep it fair and don\'t use any help. All the best! 🍀');
+
+        $telegramUser = $this->bot->getUser();
+        $telegramUserId = $telegramUser->getId();
+
+
+        // $this->say('dd',$telegramUserId);
+        // $this->say('Message', $telegramUserId,TelegramDriver::class);
+
+
+
+
+
+        // $this->say('You will be shown ' . $this->questionCount . ' questions about Laravel. Every correct answer will reward you with a certain amount of points. Please keep it fair and don\'t use any help. All the best! 🍀');
         $this->checkForNextQuestion();
     }
 

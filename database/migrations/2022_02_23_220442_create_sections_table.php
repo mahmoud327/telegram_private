@@ -13,15 +13,14 @@ return new class  extends Migration
      */
     public function up()
     {
-        Schema::create('user_scores', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
+            $table->text('link_whatsup')->nullable();
             $table->string('name')->nullable();
-            $table->bigInteger('chat_id')->nullable();
-            $table->bigInteger('points')->nullable();
-            $table->bigInteger('tries')->nullable();
 
-            $table->text('correct_answers')->nullable();
+            $table->unsignedBigInteger('material_id')->nullable();
 
+            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -33,6 +32,6 @@ return new class  extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_scores');
+        Schema::dropIfExists('questions');
     }
 };

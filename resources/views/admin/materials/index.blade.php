@@ -1,4 +1,4 @@
- @extends('admin.layouts.master')
+@extends('admin.layouts.master')
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
@@ -8,12 +8,16 @@
     <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
     <!---Internal  Owl Carousel css-->
-    <link href="{{URL::asset('assets/plugins/owl-carousel/owl.carousel.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
     <!--- Internal Sweet-Alert css-->
-    <link href="{{URL::asset('assets/plugins/sweet-alert/sweetalert.css')}}" rel="stylesheet">
-
+    <link href="{{ URL::asset('assets/plugins/sweet-alert/sweetalert.css') }}" rel="stylesheet">
+    <style>
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+            display: none;
+        }
+    </style>
 @section('title')
-categoires - Page
+    material
 @stop
 
 @endsection
@@ -23,7 +27,7 @@ categoires - Page
     <div class="my-auto">
         <div class="d-flex">
             <h4 class="content-title mb-0 my-auto">Dashboard</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                categoires Module</span>
+                material</span>
         </div>
     </div>
 </div>
@@ -38,7 +42,8 @@ categoires - Page
         <div class="card bd-0 mg-b-20 bg-danger-transparent alert p-0">
             <div class="card-header text-danger font-weight-bold">
                 <i class="far fa-times-circle"></i> Error Data
-                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="card-body text-danger">
                 <ul>
@@ -56,14 +61,13 @@ categoires - Page
 
 
 @if (session()->has('Add'))
-
-
     <div class="col-lg-12 col-md-12">
         <!--Page Widget Error-->
         <div class="card bd-0 mg-b-20 bg-success-transparent alert p-0">
             <div class="card-header text-success font-weight-bold">
                 <i class="far fa-check-circle"></i> Success Data
-                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="card-body text-success">
                 <strong>Well done!</strong> {{ session()->get('Add') }}
@@ -75,13 +79,13 @@ categoires - Page
 @endif
 
 @if (session()->has('delete'))
-
     <div class="col-lg-12 col-md-12">
 
         <div class="card bd-0 mg-b-20 bg-danger-transparent alert p-0">
             <div class="card-header text-danger font-weight-bold">
                 <i class="far fa-times-circle"></i> Error Data
-                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="card-body text-danger">
                 <strong>Oh snap!</strong> {{ session()->get('delete') }}
@@ -93,13 +97,13 @@ categoires - Page
 @endif
 
 @if (session()->has('edit'))
-
     <div class="col-lg-12 col-md-12">
         <!--Page Widget Error-->
         <div class="card bd-0 mg-b-20 bg-info-transparent alert p-0">
             <div class="card-header text-info font-weight-bold">
                 <i class="far fa-question-circle"></i> Info Data
-                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="card-body text-info">
                 <strong>Heads up!</strong> {{ session()->get('edit') }}
@@ -120,9 +124,13 @@ categoires - Page
     <div class="col-xl-12">
         <div class="card mg-b-20">
             <div class="card-header pb-0">
+                <div class="d-flex justify-content-between">
 
-                    <a class="modal-effect btn btn-outline-primary" data-effect="effect-scale"
-                        data-toggle="modal" href="#modaldemo8">Add Category</a>
+                    <a class="modal-effect btn btn-outline-primary" data-effect="effect-scale" data-toggle="modal"
+                        href="#modaldemo8">Add material</a>
+
+                </div>
+
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -131,31 +139,37 @@ categoires - Page
                         <thead>
                             <tr>
                                 <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0">title</th>
+                                <th class="border-bottom-0">name</th>
+                                <th class="border-bottom-0">code</th>
                                 <th class="border-bottom-0">action</th>
                             </tr>
                         </thead>
-                        <tbody class="tr">
-                            @foreach ($categories as $category )
-                                <tr data-id="{{ $category->id }}">
+                        <tbody>
+                            @foreach ($materials as $material)
+                                <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $category->title }}</td>
-                                     <td>
-                                        <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale" data-toggle="modal" href="#exampleModal2{{$category->id}}" title="edit">
-                                            <i class="las la-pen"></i>
-                                        </a>
-                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale" data-toggle="modal" href="#modaldemo9{{$category->id}} " title="delete">
-                                            delete
-                                        </a>
+                                    <td>{{ $material->name }}</td>
+                                    <td>{{ $material->code }}</td>
+                                    <td>
+                                        <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
+                                            data-toggle="modal" href="#exampleModal2{{ $material->id }}"
+                                            title="edit"><i class="las la-pen"></i></a>
+
+                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                            data-toggle="modal" href="#modaldemo9{{ $material->id }}" title="delete"><i
+                                                class="las la-trash"></i></a>
+
                                     </td>
                                 </tr>
-                                @include('admin.posts.categories.delete_modal' ,['category'=>$category])
-                                @include('admin.posts.categories.edit_modal',['category'=>$category])
+
+                                @include('admin.materials.delete_modal', ['material' => $material])
+                                @include('admin.materials.edit_modal', ['material' => $material])
                             @endforeach
                         </tbody>
                     </table>
-                </div>
+                    {{ $materials->links() }}
 
+                </div>
             </div>
         </div>
     </div>
@@ -165,11 +179,16 @@ categoires - Page
 
 
 
-    </div>
+</div>
 
-    @include('admin.posts.categories.add_modal')
+@include('admin.materials.add_modal')
+
+<!-- delete -->
 
 
+
+
+<!-- row closed -->
 </div>
 <!-- Container closed -->
 </div>
@@ -194,23 +213,34 @@ categoires - Page
 <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
 
+
 <!--Internal  Datatable js -->
 <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
 <script src="{{ URL::asset('assets/js/modal.js') }}"></script>
 
+
 <!--Internal  Datepicker js -->
-<script src="{{URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js') }}"></script>
 <!-- Internal Select2 js-->
-<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/rating/ratings.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/rating/ratings.js') }}"></script>
 <!--Internal  Sweet-Alert js-->
-<script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/sweet-alert/jquery.sweet-alert.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/sweet-alert/jquery.sweet-alert.js') }}"></script>
 <!-- Sweet-alert js  -->
-<script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
-<script src="{{URL::asset('assets/js/sweet-alert.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/sweet-alert.js') }}"></script>
+
+<script>
+    $('#modaldemo9').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var section_name = button.data('section_name')
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #section_name').val(section_name);
+    })
+</script>
 
 
 @endsection
-
-

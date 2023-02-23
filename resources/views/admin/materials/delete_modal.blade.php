@@ -1,17 +1,17 @@
 <!-- delete -->
-<div class="modal" id="modaldemo9{{ $category->id }}">
+<div class="modal" id="modaldemo9{{ $material->id }}">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">حذف القسم</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                <h6 class="modal-title">حذف السجل</h6><button aria-label="Close" class="close" data-dismiss="modal"
                     type="button"><span aria-hidden="true">&times;</span></button>
             </div>
-            <form action="{{route('categories.destroy',$category)}}" method="post">
+            <form action="{{ route('materials.destroy', $material->id) }}" method="post">
                 {{ method_field('delete') }}
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <p>هل انت متاكد من عملية الحذف ؟</p><br>
-                    <input type="hidden" name="id" id="id" value="{{ $category->name }}">
+                    <input type="hidden" name="id" id="id" value="{{ $material->name }}">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>

@@ -2,8 +2,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\UserScoreController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -42,8 +44,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::group(['middleware' => ['admin']], function () {
             Route::get('home', 'HomeController@index')->name('admin.home');
 
-            Route::resource('questions',QuestionController::class);
-            Route::resource('user-scores',UserScoreController::class);
+            Route::resource('materials',MaterialController::class);
+            Route::resource('sections',SectionController::class);
 
 
         });

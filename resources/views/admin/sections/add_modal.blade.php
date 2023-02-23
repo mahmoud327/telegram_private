@@ -2,20 +2,26 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">Add New question</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                <h6 class="modal-title">Add New section</h6><button aria-label="Close" class="close" data-dismiss="modal"
                     type="button"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('questions.store') }}" method="post">
+                <form action="{{ route('sections.store') }}" method="post">
                     {{ csrf_field() }}
 
                     <div class="form-group">
-                        <input type="text" class="form-control" name="title" placeholder="title">
+                        <input type="text" class="form-control" name="name" placeholder="name">
                         <br>
 
-                        <textarea type="text" class="form-control" name="question" rows="10"  placeholder="question"></textarea>
-                        <br>
-                        <textarea type="text" class="form-control" name="answer" placeholder="Answer"></textarea>
+                        <select name="material_id" class="form-control">
+                            @foreach ($materials as $material)
+
+                                <option value="{{$material->id}}">
+                                    {{$material->name}}
+
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
 

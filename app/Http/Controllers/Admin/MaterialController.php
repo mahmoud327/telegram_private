@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Material;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
-class QuestionController extends Controller
+class MaterialController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::latest()->paginate(10);
-        return view('admin.questions.index', compact('questions'));
+        $materials = Material::latest()->paginate(10);
+        return view('admin.materials.index', compact('materials'));
     }
 
     /**
@@ -28,7 +29,7 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $question=Question::create($request->all());
+        $material=Material::create($request->all());
 
     //    $telegram= Telegram::sendMessage([
     //         'chat_id'=>'-849059038',
@@ -49,8 +50,8 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $question = Question::findOrFail($id);
-        $question->update($request->all());
+        $material = Material::findOrFail($id);
+        $material->update($request->all());
         session()->flash('edit', 'تم اضافة سجل بنجاح ');
         return redirect()->back();
     }
@@ -63,8 +64,8 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        $question = Question::findOrFail($id);
-        $question->delete();
+        $material = Material::findOrFail($id);
+        $material->delete();
         session()->flash('delete', 'تم حذف سجل بنجاح ');
         return redirect()->back();
     }
