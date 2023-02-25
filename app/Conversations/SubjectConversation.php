@@ -2,6 +2,7 @@
 
 namespace App\Conversations;
 
+use App\Models\Course;
 use App\Models\Material;
 use App\Models\Section;
 use BotMan\BotMan\Messages\Conversations\Conversation;
@@ -12,14 +13,110 @@ class SubjectConversation extends Conversation
 {
     const BACK = '🔙 Back';
     const Main_Menu= '🔝 Main Menu';
-    const Main_Menu_BUTTON= 'Fall Semster 22-23 🍁';
 
     private $backAndMainButtons = [self::BACK, self::Main_Menu];
-    private $lastSection;
+    protected $lastCourse;
+    protected $lastMaterial;
 
     public function run()
     {
-        $this->askForMaterials( );
+        $message = 'أهلًا وسهلّا بك في البوت التطوعي لخدمة وتنظيم قروبات الواتس بالكلية
+ 
+                    لاي اضافة او تعديل على الروابط او المواد يرجى التواصل
+                    Telegram / http://t.me/Laravelmah_bot
+
+
+
+
+                    🔵 في حال رابط القروب ماطلع لك يعني الى الان ماوصلني
+
+                    🔵 اذا عندك الرابط ارسله لي على التليقرام';
+
+        $this->say($message);
+        $this->askForCourses( );
+    }
+
+    private function askForCourses()
+    {
+        $courses = Course::pluck('title')->toArray();
+        $keyboard = $this->createButtons($courses);
+        $this->ask(self::Main_Menu, function (string $answer): void {
+            $this->lastCourse = $answer;
+            $this->askForMaterials($answer);
+        }, $keyboard->toArray());
+    }
+
+    private function askForMaterials($course)
+    {
+        $materials = Material::whereHas('course', function($q) use($course) {
+            $q->whereTitle($course);
+        })->pluck('name')->toArray();
+
+        $keyboard = $this->createButtons($materials, true);
+
+        $this->ask($course, function (string $answer): void {
+
+            if($this->clickedOnBackButton($answer) || $this->clickedOnMainMenuButton($answer)) {
+                $this->askForCourses();
+            } else {
+                $this->lastMaterial = $answer;
+                $this->askForSections($answer);
+            }
+
+        }, $keyboard->toArray());
+    }
+
+    private function askForSections($material)
+    {
+        $sections = Section::whereHas('material', function($q) use($material) {
+                        $q->whereName($material);
+                    })->pluck('name')->toArray();
+
+        $keyboard = $this->createButtons($sections, true);
+
+        $this->ask($material, function (string $answer, $sections): void {
+
+            if( $this->clickedOnBackButton($answer)) {
+                $this->askForMaterials($this->lastCourse);
+            } else if( $this->clickedOnMainMenuButton($answer)) {
+                $this->askForCourses();
+            } else {
+                $this->getWhatsAppLink($answer);
+            }
+
+        }, $keyboard->toArray());
+    }
+
+    private function getWhatsAppLink($section)
+    {
+        $whatsAppLink = Section::whereName($section)->first()->link_whatsup;
+
+        $sections = Section::whereHas('material', function($q) {
+            $q->whereName($this->lastMaterial);
+        })->pluck('name')->toArray();
+        $keyboard = $this->createButtons($sections, true);
+
+        $this->ask($whatsAppLink, function (string $answer): void {
+
+            if( $this->clickedOnBackButton($answer)) {
+                $this->askForMaterials($this->lastCourse);
+            } else if( $this->clickedOnMainMenuButton($answer)) {
+                $this->askForCourses();
+            } else {
+                $this->getWhatsAppLink($answer);
+            }
+
+        }, $keyboard->toArray());
+    }
+
+    private function clickedOnBackButton($answer)
+    {
+        return $answer == self::BACK;
+    }
+
+    private function clickedOnMainMenuButton($answer)
+    {
+        return $answer == self::Main_Menu;
     }
 
     private function createButtons($buttonsName, $backAndMainButtons = false)
@@ -39,56 +136,5 @@ class SubjectConversation extends Conversation
         }
 
         return $keyboard;
-    }
-
-    private function askForMaterials()
-    {
-        $materials = Material::pluck('name')->toArray();
-        $keyboard = $this->createButtons($materials, true);
-        $this->ask('Choose a material', function (string $answer): void {
-
-            if( $this->ifClickedInBackOrMainMenuButton($answer)) {
-                $this->say($answer, $this->createButtons([$answer]));
-            } else {
-                $this->askForSections($answer);
-            }
-
-        }, $keyboard->toArray());
-    }
-
-    private function askForSections($material)
-    {
-        $sections = Section::whereHas('material', function($q) use($material) {
-                        $q->whereName($material);
-                    })->pluck('name')->toArray();
-
-        $keyboard = $this->createButtons($sections, true);
-
-        $this->ask('Choose a section', function (string $answer): void {
-
-            if( in_array($answer, $this->backAndMainButtons)) {
-                $this->askForMaterials();
-            } else {
-                $this->getWhatsAppLink($answer);
-                $this->lastSection = $answer;
-            }
-
-        }, $keyboard->toArray());
-    }
-
-    private function getWhatsAppLink($section)
-    {
-        $whatsAppLink = Section::whereName($section)->first()->link_whatsup;
-        if( $this->ifClickedInBackOrMainMenuButton($section)) {
-            $this->askForMaterials();
-        } else {
-            $this->say($whatsAppLink);
-            $this->askForSections($this->lastSection);
-        }
-    }
-
-    private function ifClickedInBackOrMainMenuButton($answer)
-    {
-        return in_array($answer, $this->backAndMainButtons);
     }
 }
