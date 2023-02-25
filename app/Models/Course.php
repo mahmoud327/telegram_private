@@ -9,13 +9,10 @@ class Course extends Model
 
 
     protected $table = 'courses';
-    protected $fillable =['title','material_id'];
+    protected $fillable =['title'];
 
     public $timestamps = true;
-    public function material()
-    {
-        return $this->belongsTo('App\Models\Material');
-    }
+
 
 
 

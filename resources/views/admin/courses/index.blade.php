@@ -140,7 +140,6 @@
                             <tr>
                                 <th class="border-bottom-0">#</th>
                                 <th class="border-bottom-0">title</th>
-                                <th class="border-bottom-0">matrial</th>
                                 <th class="border-bottom-0">action</th>
                             </tr>
                         </thead>
@@ -149,7 +148,6 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $course->title }}</td>
-                                    <td>{{ optional($course->material)->name }}</td>
                                     <td>
                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                             data-toggle="modal" href="#exampleModal2{{ $course->id }}"

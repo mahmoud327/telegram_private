@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Material;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -17,8 +18,11 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        $materials = Material::latest()->paginate(10);
-        return view('admin.materials.index', compact('materials'));
+        $materials = Material::latest()
+        ->with('course')
+        ->paginate(10);
+        $courses=Course::latest()->get();
+        return view('admin.materials.index', compact('materials','courses'));
     }
 
     /**

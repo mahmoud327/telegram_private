@@ -141,6 +141,7 @@
                                 <th class="border-bottom-0">#</th>
                                 <th class="border-bottom-0">name</th>
                                 <th class="border-bottom-0">code</th>
+                                <th class="border-bottom-0">course_name</th>
                                 <th class="border-bottom-0">action</th>
                             </tr>
                         </thead>
@@ -150,6 +151,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $material->name }}</td>
                                     <td>{{ $material->code }}</td>
+                                    <td>{{ optional($material->course)->title }}</td>
                                     <td>
                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                             data-toggle="modal" href="#exampleModal2{{ $material->id }}"

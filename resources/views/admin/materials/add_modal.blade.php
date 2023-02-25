@@ -13,8 +13,20 @@
                         <input type="text" class="form-control" name="name" placeholder="name">
                         <br>
 
+
                         <input type="text" class="form-control" name="code" placeholder="code">
                         <br>
+
+
+                        <select name="course_id" class="form-control">
+                            @foreach ($courses as $course)
+
+                                <option value="{{$course->id}}">
+                                    {{$course->title}}
+
+                                </option>
+                            @endforeach
+                        </select>
 
                     </div>
 

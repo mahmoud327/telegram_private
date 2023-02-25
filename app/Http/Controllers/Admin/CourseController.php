@@ -18,11 +18,9 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::latest()
-        ->with('material')
         ->paginate(10);
 
-        $materials=Material::get();
-        return view('admin.courses.index', compact('courses','materials'));
+        return view('admin.courses.index', compact('courses'));
     }
 
     /**

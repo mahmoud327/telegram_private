@@ -20,15 +20,7 @@
                                 value="{{ $course->title }}">
                             <br>
                             <br>
-                            <select name="material_id" class="form-control">
-                                @foreach ($materials as $material)
-                                    <option {{ $material->id == $course->material_id ? 'selected' : '' }} value="{{ $material->id }}">
-
-                                        {{ $material->name }}
-
-                                    </option>
-                                @endforeach
-                            </select>
+                       
                         </div>
 
 

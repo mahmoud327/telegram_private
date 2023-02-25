@@ -22,6 +22,16 @@
                             <input type="text" class="form-control" name="code" value="{{$material->code}}"placeholder="code">
                             <br>
 
+                            <select name="course_id" class="form-control">
+                                @foreach ($courses as $course)
+                                    <option {{ $course->id == $material->course_id ? 'selected' : '' }} value="{{ $course->id }}">
+
+                                        {{ $course->title }}
+
+                                    </option>
+                                @endforeach
+                            </select>
+
                         </div>
 
 
