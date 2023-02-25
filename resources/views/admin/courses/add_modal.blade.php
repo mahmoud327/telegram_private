@@ -6,15 +6,14 @@
                     type="button"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('sections.store') }}" method="post">
+                <form action="{{ route('courses.store') }}" method="post">
                     {{ csrf_field() }}
 
                     <div class="form-group">
-                        <input type="text" class="form-control" name="name" placeholder="name">
+                        <input type="text" class="form-control" name="title" placeholder="title">
                         <br>
 
 
-                        <textarea type="text" class="form-control" name="link_whatsup" rows="10"  placeholder="link_whatsup"></textarea>
                         <br>
 
                         <select name="material_id" class="form-control">

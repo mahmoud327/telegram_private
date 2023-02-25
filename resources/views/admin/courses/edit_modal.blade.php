@@ -1,29 +1,28 @@
     <!-- edit -->
-    <div class="modal fade" id="exampleModal2{{ $section->id }}" tabindex="-1" role="dialog"
+    <div class="modal fade" id="exampleModal2{{ $course->id }}" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">edit section</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">edit course</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
 
-                    <form action="{{ route('sections.update', $section->id) }}" method="post" autocomplete="off">
+                    <form action="{{ route('courses.update', $course->id) }}" method="post" autocomplete="off">
                         {{ method_field('patch') }}
                         {{ csrf_field() }}
 
                         <div class="form-group">
                             <input type="text" class="form-control" name="name" placeholder="name"
-                                value="{{ $section->name }}">
+                                value="{{ $course->title }}">
                             <br>
-                            <textarea type="text" class="form-control" name="link_whatsup" rows="10"  placeholder="link_whatsup">{{$section->link_whatsup}}</textarea>
                             <br>
                             <select name="material_id" class="form-control">
                                 @foreach ($materials as $material)
-                                    <option {{ $material->id == $section->material_id ? 'selected' : '' }} value="{{ $material->id }}">
+                                    <option {{ $material->id == $course->material_id ? 'selected' : '' }} value="{{ $material->id }}">
 
                                         {{ $material->name }}
 

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\QuestionController;
@@ -46,6 +47,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
             Route::resource('materials',MaterialController::class);
             Route::resource('sections',SectionController::class);
+            Route::resource('courses',CourseController::class);
 
 
         });
