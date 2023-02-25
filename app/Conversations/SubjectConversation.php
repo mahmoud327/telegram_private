@@ -10,7 +10,11 @@ use BotMan\Drivers\Telegram\Extensions\KeyboardButton;
 
 class SubjectConversation extends Conversation
 {
-    private $backAndMainButtons = ['Back', 'Main Menu'];
+    const BACK = '🔙 Back';
+    const Main_Menu= '🔝 Main Menu';
+    const Main_Menu_BUTTON= 'Fall Semster 22-23 🍁';
+
+    private $backAndMainButtons = [self::BACK, self::Main_Menu];
     private $lastSection;
 
     public function run()
@@ -34,17 +38,20 @@ class SubjectConversation extends Conversation
             $keyboard->addRow(KeyboardButton::create($this->backAndMainButtons[0]), KeyboardButton::create($this->backAndMainButtons[1]));
         }
 
-
         return $keyboard;
     }
 
     private function askForMaterials()
     {
         $materials = Material::pluck('name')->toArray();
-        $keyboard = $this->createButtons($materials);
+        $keyboard = $this->createButtons($materials, true);
         $this->ask('Choose a material', function (string $answer): void {
 
-            $this->askForSections($answer);
+            if( $this->ifClickedInBackOrMainMenuButton($answer)) {
+                $this->say($answer, $this->createButtons([$answer]));
+            } else {
+                $this->askForSections($answer);
+            }
 
         }, $keyboard->toArray());
     }
@@ -72,11 +79,16 @@ class SubjectConversation extends Conversation
     private function getWhatsAppLink($section)
     {
         $whatsAppLink = Section::whereName($section)->first()->link_whatsup;
-        if( in_array($section, $this->backAndMainButtons)) {
+        if( $this->ifClickedInBackOrMainMenuButton($section)) {
             $this->askForMaterials();
         } else {
             $this->say($whatsAppLink);
             $this->askForSections($this->lastSection);
         }
+    }
+
+    private function ifClickedInBackOrMainMenuButton($answer)
+    {
+        return in_array($answer, $this->backAndMainButtons);
     }
 }
