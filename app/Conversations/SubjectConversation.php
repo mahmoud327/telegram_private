@@ -10,12 +10,15 @@ use BotMan\Drivers\Telegram\Extensions\KeyboardButton;
 
 class SubjectConversation extends Conversation
 {
+    private $backAndMainButtons = ['Back', 'Main Menu'];
+    private $lastSection;
+
     public function run()
     {
         $this->askForMaterials( );
     }
 
-    private function createButtons($buttonsName)
+    private function createButtons($buttonsName, $backAndMainButtons = false)
     {
         $keyboard = Keyboard::create()
             ->oneTimeKeyboard()
@@ -25,6 +28,10 @@ class SubjectConversation extends Conversation
 
         foreach($buttonsName as $buttonName) {
             $keyboard->addRow(KeyboardButton::create($buttonName));
+        }
+
+        if($backAndMainButtons) {
+            $keyboard->addRow(KeyboardButton::create($this->backAndMainButtons[0]), KeyboardButton::create($this->backAndMainButtons[1]));
         }
 
 
@@ -48,11 +55,16 @@ class SubjectConversation extends Conversation
                         $q->whereName($material);
                     })->pluck('name')->toArray();
 
-        $keyboard = $this->createButtons($sections);
+        $keyboard = $this->createButtons($sections, true);
 
         $this->ask('Choose a section', function (string $answer): void {
 
-            $this->getWhatsAppLink($answer);
+            if( in_array($answer, $this->backAndMainButtons)) {
+                $this->askForMaterials();
+            } else {
+                $this->getWhatsAppLink($answer);
+                $this->lastSection = $answer;
+            }
 
         }, $keyboard->toArray());
     }
@@ -60,6 +72,11 @@ class SubjectConversation extends Conversation
     private function getWhatsAppLink($section)
     {
         $whatsAppLink = Section::whereName($section)->first()->link_whatsup;
-        $this->say($whatsAppLink);
+        if( in_array($section, $this->backAndMainButtons)) {
+            $this->askForMaterials();
+        } else {
+            $this->say($whatsAppLink);
+            $this->askForSections($this->lastSection);
+        }
     }
 }
