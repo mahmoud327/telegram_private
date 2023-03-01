@@ -15,12 +15,19 @@ use BotMan\Drivers\Telegram\Extensions\KeyboardButton;
 $driver = DriverManager::loadDriver(\BotMan\Drivers\Telegram\TelegramDriver::class);
 $config = [
     'telegram' => [
-        'token' => env('TELEGRAM_TOKEN'),
+        'token' => '6258565204:AAEmuU3WAOZ6k8R6qCFKYkhZeeTf-6j6VIk',
     ]
 ];
-
-
 $botman = BotManFactory::create($config, new LaravelCache());
+
+
+
+$botman->hears('Hi', function (BotMan $bot) {
+    $bot->reply('Hello! write start for begin exam');
+});
+
+
+
 
 $botman->hears('/start', function (BotMan $bot) {
 

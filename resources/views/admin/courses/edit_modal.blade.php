@@ -16,11 +16,11 @@
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <input type="text" class="form-control" name="name" placeholder="name"
+                            <input type="text" class="form-control" name="title" placeholder="title"
                                 value="{{ $course->title }}">
                             <br>
                             <br>
-                       
+
                         </div>
 
 

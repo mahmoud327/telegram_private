@@ -30,8 +30,8 @@ return [
     */
     'bots'                         => [
         'mybot' => [
-            'username'=>'Laravelmah_bot',
-            'token'               => env('TELEGRAM_BOT_TOKEN', '6076846904:AAHtzW0YDIPGNLkhn8-vFQNwuL9PfSATFR0'),
+            'username'=>'Kwhelpuniversity_bot',
+            'token'               => env('TELEGRAM_BOT_TOKEN', '6258565204:AAEmuU3WAOZ6k8R6qCFKYkhZeeTf-6j6VIk'),
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             'commands'            => [

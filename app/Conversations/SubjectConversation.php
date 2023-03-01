@@ -12,7 +12,7 @@ use BotMan\Drivers\Telegram\Extensions\KeyboardButton;
 class SubjectConversation extends Conversation
 {
     const BACK = '🔙 Back';
-    const Main_Menu= '🔝 Main Menu';
+    const Main_Menu = '🔝 Main Menu';
 
     private $backAndMainButtons = [self::BACK, self::Main_Menu];
     protected $lastCourse;
@@ -21,7 +21,7 @@ class SubjectConversation extends Conversation
     public function run()
     {
         $message = 'أهلًا وسهلّا بك في البوت التطوعي لخدمة وتنظيم قروبات الواتس بالكلية
- 
+
                     لاي اضافة او تعديل على الروابط او المواد يرجى التواصل
                     Telegram / http://t.me/Laravelmah_bot
 
@@ -33,7 +33,7 @@ class SubjectConversation extends Conversation
                     🔵 اذا عندك الرابط ارسله لي على التليقرام';
 
         $this->say($message);
-        $this->askForCourses( );
+        $this->askForCourses();
     }
 
     private function askForCourses()
@@ -48,7 +48,7 @@ class SubjectConversation extends Conversation
 
     private function askForMaterials($course)
     {
-        $materials = Material::whereHas('course', function($q) use($course) {
+        $materials = Material::whereHas('course', function ($q) use ($course) {
             $q->whereTitle($course);
         })->pluck('name')->toArray();
 
@@ -56,34 +56,32 @@ class SubjectConversation extends Conversation
 
         $this->ask($course, function (string $answer): void {
 
-            if($this->clickedOnBackButton($answer) || $this->clickedOnMainMenuButton($answer)) {
+            if ($this->clickedOnBackButton($answer) || $this->clickedOnMainMenuButton($answer)) {
                 $this->askForCourses();
             } else {
                 $this->lastMaterial = $answer;
                 $this->askForSections($answer);
             }
-
         }, $keyboard->toArray());
     }
 
     private function askForSections($material)
     {
-        $sections = Section::whereHas('material', function($q) use($material) {
-                        $q->whereName($material);
-                    })->pluck('name')->toArray();
+        $sections = Section::whereHas('material', function ($q) use ($material) {
+            $q->whereName($material);
+        })->pluck('name')->toArray();
 
         $keyboard = $this->createButtons($sections, true);
 
         $this->ask($material, function (string $answer, $sections): void {
 
-            if( $this->clickedOnBackButton($answer)) {
+            if ($this->clickedOnBackButton($answer)) {
                 $this->askForMaterials($this->lastCourse);
-            } else if( $this->clickedOnMainMenuButton($answer)) {
+            } else if ($this->clickedOnMainMenuButton($answer)) {
                 $this->askForCourses();
             } else {
                 $this->getWhatsAppLink($answer);
             }
-
         }, $keyboard->toArray());
     }
 
@@ -91,21 +89,20 @@ class SubjectConversation extends Conversation
     {
         $whatsAppLink = Section::whereName($section)->first()->link_whatsup;
 
-        $sections = Section::whereHas('material', function($q) {
+        $sections = Section::whereHas('material', function ($q) {
             $q->whereName($this->lastMaterial);
         })->pluck('name')->toArray();
         $keyboard = $this->createButtons($sections, true);
 
         $this->ask($whatsAppLink, function (string $answer): void {
 
-            if( $this->clickedOnBackButton($answer)) {
+            if ($this->clickedOnBackButton($answer)) {
                 $this->askForMaterials($this->lastCourse);
-            } else if( $this->clickedOnMainMenuButton($answer)) {
+            } else if ($this->clickedOnMainMenuButton($answer)) {
                 $this->askForCourses();
             } else {
                 $this->getWhatsAppLink($answer);
             }
-
         }, $keyboard->toArray());
     }
 
@@ -127,11 +124,11 @@ class SubjectConversation extends Conversation
             ->resizeKeyboard(true);
 
 
-        foreach($buttonsName as $buttonName) {
+        foreach ($buttonsName as $buttonName) {
             $keyboard->addRow(KeyboardButton::create($buttonName));
         }
 
-        if($backAndMainButtons) {
+        if ($backAndMainButtons) {
             $keyboard->addRow(KeyboardButton::create($this->backAndMainButtons[0]), KeyboardButton::create($this->backAndMainButtons[1]));
         }
 
