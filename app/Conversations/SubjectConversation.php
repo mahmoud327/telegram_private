@@ -23,7 +23,7 @@ class SubjectConversation extends Conversation
         $message = 'أهلًا وسهلّا بك في البوت التطوعي لخدمة وتنظيم قروبات الواتس بالكلية
 
                     لاي اضافة او تعديل على الروابط او المواد يرجى التواصل
-                    Telegram / http://t.me/Laravelmah_bot
+                    Telegram / http://t.me/Kwhelpuniversity_bot
 
 
 
