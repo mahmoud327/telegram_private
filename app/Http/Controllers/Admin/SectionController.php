@@ -54,7 +54,7 @@ class SectionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $section = Section::findOrFail($id);
+        $section = Section::find($id);
         $section->update($request->all());
         session()->flash('edit', 'تم اضافة سجل بنجاح ');
         return redirect()->back();

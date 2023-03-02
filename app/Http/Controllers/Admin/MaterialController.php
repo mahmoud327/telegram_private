@@ -54,7 +54,7 @@ class MaterialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $material = Material::findOrFail($id);
+        $material = Material::find($id);
         $material->update($request->all());
         session()->flash('edit', 'تم اضافة سجل بنجاح ');
         return redirect()->back();
@@ -68,7 +68,7 @@ class MaterialController extends Controller
      */
     public function destroy($id)
     {
-        $material = Material::findOrFail($id);
+        $material = Material::find($id);
         $material->delete();
         session()->flash('delete', 'تم حذف سجل بنجاح ');
         return redirect()->back();

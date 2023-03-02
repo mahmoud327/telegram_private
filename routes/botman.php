@@ -30,7 +30,7 @@ $botman->hears('Hi', function (BotMan $bot) {
 $botman->hears('/start', function (BotMan $bot) {
 
     $bot->startConversation(new SubjectConversation);
-});
+})->stopsConversation();
 
 
 $botman->listen();
